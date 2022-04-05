@@ -1,4 +1,4 @@
-package com.example.entities;
+package com.example.designpattern.database.entities;
 
 import java.util.ArrayList;
 import java.util.HashMap;

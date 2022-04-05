@@ -1,12 +1,10 @@
-package com.example.entities;
+package com.example.designpattern.database.entities;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public abstract class Institution {
-    private List<Grade> grades = new ArrayList<>();
-    private String name;
+    private final Set<Grade> grades = new TreeSet<>();
+    private final String name;
 
     public Institution(String name){
         this.name = name;
@@ -18,7 +16,7 @@ public abstract class Institution {
         return name;
     }
 
-    public  List<Grade> getGrades(){
+    public  Set<Grade> getGrades(){
         return grades;
     }
 

@@ -1,13 +1,14 @@
-package com.example.entities;
+package com.example.designpattern.database.entities;
 
 import java.util.Map;
 
-public class DeerWalk extends Institution {
+public class LittleFlower extends Institution{
 
-    public DeerWalk(String name){
+    public LittleFlower(String name){
         super(name);
 
     }
+
     @Override
     void getSubjectPeriods() {
         getGrades().forEach(grade -> {
@@ -15,7 +16,5 @@ public class DeerWalk extends Institution {
             System.out.println(period);
 
         });
-
-
     }
 }
