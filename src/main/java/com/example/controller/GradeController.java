@@ -1,13 +1,18 @@
 package com.example.controller;
 
+import com.example.DTO.GradeDto;
 import com.example.entity.Grade;
+import com.example.repository.InstitutionRepository;
 import com.example.services.GradeService;
+import io.micronaut.http.HttpResponse;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.*;
 import jakarta.inject.Inject;
 
-import java.util.List;
-import java.util.Optional;
+import javax.transaction.Transactional;
+
+import static io.micronaut.http.HttpResponse.ok;
+
 
 @Controller("/grade")
 public class GradeController {
@@ -15,17 +20,13 @@ public class GradeController {
     @Inject
     GradeService gradeService;
 
-    @Get("/institution/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Iterable<Grade> getInstitutionGrades(@PathVariable long id){
-        System.out.println(id);
-        return gradeService.getGrades(id);
+    @Inject
+    InstitutionRepository institutionRepository;
 
-    }
-
-    @Post
+    @Post("/{id}/institution")
     @Produces(MediaType.APPLICATION_JSON)
-    public Grade createGrade(@Body Grade grade){
-        return gradeService.createGrade(grade);
+    @Transactional
+    public  HttpResponse<?> createGrade(@PathVariable long id,@Body GradeDto gradeDto){
+        return ok(gradeService.createGrade(gradeDto,id));
     }
 }

@@ -11,13 +11,13 @@ repositories {
 }
 
 dependencies {
+    implementation 'org.projectlombok:lombok:1.18.20'
     annotationProcessor("io.micronaut:micronaut-http-validation")
     implementation("io.micronaut:micronaut-http-client")
     implementation("io.micronaut:micronaut-jackson-databind")
     implementation("io.micronaut:micronaut-runtime")
     implementation("jakarta.annotation:jakarta.annotation-api")
     runtimeOnly("ch.qos.logback:logback-classic")
-    implementation("io.micronaut:micronaut-validation")
     // hibernate-jpa dependency
     implementation('org.postgresql:postgresql')
     annotationProcessor 'io.micronaut.data:micronaut-data-processor'
@@ -26,6 +26,12 @@ dependencies {
     implementation("io.micronaut.sql:micronaut-hibernate-jpa")
     implementation("io.micronaut.beanvalidation:micronaut-hibernate-validator")
     implementation("io.micronaut.data:micronaut-data-jdbc")
+    implementation group: 'com.vladmihalcea', name: 'hibernate-types-55', version: '2.13.0'
+//    implementation 'org.mapstruct:mapstruct:1.4.2.Final'
+//    implementation 'org.zalando:problem:0.27.1'
+//    implementation 'org.zalando:jackson-datatype-problem:0.27.1'
+
+
 
 
 }

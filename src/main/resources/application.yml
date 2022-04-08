@@ -7,7 +7,7 @@ netty:
       max-order: 3
 datasources:
   default:
-    url: jdbc:postgresql://localhost:5432/dlc
+    url: jdbc:postgresql://localhost:5432/learningcenter
     driverClassName: org.postgresql.Driver
     username: postgres
     password: aryan
@@ -20,3 +20,4 @@ jpa:
         hbm2ddl:
           auto: update
         show_sql: true
+

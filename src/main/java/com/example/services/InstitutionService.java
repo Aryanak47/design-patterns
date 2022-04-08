@@ -1,14 +1,15 @@
 package com.example.services;
 
 
-import com.example.entity.Grade;
+
+import com.example.DTO.InstitutionDTO;
 import com.example.entity.Institution;
+import com.example.error.InstitutionNotFoundException;
 import com.example.repository.InstitutionRepository;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,33 +19,53 @@ public class InstitutionService {
     @Inject
     InstitutionRepository institutionRepository;
 
-    public Iterable<Institution> getAllInstitution(){
-        return institutionRepository.findAll();
+    public List<InstitutionDTO> getAllInstitution(){
+        List<InstitutionDTO> institutions = new ArrayList<>();
+         institutionRepository.findAll().forEach(institution -> {
+             InstitutionDTO institutionDTO = new InstitutionDTO();
+             institutionDTO.setName(institution.getName());
+             institutionDTO.setLocation(institution.getLocation());
+             institutionDTO.setPhoneNumber(institution.getPhoneNumber());
+             institutionDTO.setGrades(institution.getGrades());
+             institutionDTO.setId(institution.getId());
+             institutions.add(institutionDTO);
+         });
+         return  institutions;
     }
 
     public Institution updateInstitution(Institution institution){
         return institutionRepository.update(institution);
-
     }
 
     public void deleteInstitution(long id){
         institutionRepository.deleteById(id);
     }
 
-    public Institution createInstitution(Institution institution){
-        return institutionRepository.save(institution);
+    public InstitutionDTO createInstitution(InstitutionDTO institutionDTO){
+        Institution institution = institutionDTO.getEntity();
+        Institution savedInstitution = institutionRepository.save(institution);
+        institutionDTO.setId(savedInstitution.getId());
+        return institutionDTO;
     }
 
-    public Institution getInstitution(long id){
-        Optional<Institution> institution = institutionRepository.findById(id);
-        return institution.orElse(null);
+    public InstitutionDTO getInstitution(long id){
+
+          Optional<Institution> institution =  institutionRepository.findById(id);
+          if(institution.isPresent()){
+              InstitutionDTO institutionDTO = new InstitutionDTO();
+              institutionDTO.setName(institution.get().getName());
+              institutionDTO.setLocation(institution.get().getLocation());
+              institutionDTO.setPhoneNumber(institution.get().getPhoneNumber());
+              institutionDTO.setGrades(institution.get().getGrades());
+              institutionDTO.setId(id);
+              return institutionDTO;
+          }
+          throw new InstitutionNotFoundException(id);
+
+
     }
     public Boolean IsInstitutionExist(String name){
-       Institution institution =  institutionRepository.findByName(name);
-       if(institution != null){
-           return true;
-       }
-       return false;
+       return institutionRepository.findByName(name).isPresent();
     }
 
 }
