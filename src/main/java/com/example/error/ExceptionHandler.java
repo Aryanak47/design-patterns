@@ -3,6 +3,7 @@ package com.example.error;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.http.HttpRequest;
 import io.micronaut.http.HttpResponse;
+import io.micronaut.http.HttpStatus;
 import io.micronaut.http.annotation.Produces;
 import io.micronaut.http.server.exceptions.response.ErrorContext;
 import io.micronaut.http.server.exceptions.response.ErrorResponseProcessor;
@@ -18,6 +19,10 @@ public class ExceptionHandler implements io.micronaut.http.server.exceptions.Exc
 
     @Override
     public HttpResponse<?> handle(HttpRequest request, InstitutionNotFoundException exception) {
+        HttpStatus status = exception.getStatus();
+        if(status == HttpStatus.BAD_REQUEST){
+            return HttpResponse.badRequest(exception.getLocalizedMessage());
+        }
         return  HttpResponse.serverError(exception.getLocalizedMessage());
 
     }

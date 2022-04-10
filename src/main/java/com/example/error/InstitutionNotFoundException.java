@@ -1,12 +1,17 @@
 package com.example.error;
 
+import io.micronaut.http.HttpStatus;
+
 public class InstitutionNotFoundException extends RuntimeException{
-    public InstitutionNotFoundException(long id) {
-        super("Institution[id=" + id + "] was not found");
+    private HttpStatus status;
+    public InstitutionNotFoundException(String message, HttpStatus status) {
+        super(message);
+        this.status = status;
     }
 
-    public InstitutionNotFoundException(String message) {
-        super(message);
+    public HttpStatus getStatus() {
+        return status;
     }
+
 
 }

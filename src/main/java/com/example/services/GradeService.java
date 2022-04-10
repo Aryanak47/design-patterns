@@ -6,6 +6,7 @@ import com.example.entity.Institution;
 import com.example.error.InstitutionNotFoundException;
 import com.example.repository.GradeRepository;
 import com.example.repository.InstitutionRepository;
+import io.micronaut.http.HttpStatus;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
@@ -24,7 +25,7 @@ public class GradeService {
     public GradeDto createGrade(GradeDto gradeDto,long id){
         Optional<Institution> institution = institutionRepository.findById(id);
         if (institution.isEmpty()) {
-            throw new InstitutionNotFoundException(id);
+            throw new InstitutionNotFoundException("There is no institution with this id", HttpStatus.BAD_REQUEST);
         }
 
         Grade grade = gradeDto.getEntity();

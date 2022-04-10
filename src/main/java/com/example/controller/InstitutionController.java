@@ -6,6 +6,7 @@ import com.example.entity.Institution;
 import com.example.error.InstitutionNotFoundException;
 import com.example.services.InstitutionService;
 import io.micronaut.http.HttpResponse;
+import io.micronaut.http.HttpStatus;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.*;
 import jakarta.inject.Inject;
@@ -24,7 +25,7 @@ public class InstitutionController {
     public HttpResponse<InstitutionDTO> createInstitution(@Body InstitutionDTO institutionDTO){
 
         if(institutionService.IsInstitutionExist(institutionDTO.getName())){
-            throw new InstitutionNotFoundException("Institution already exists with this name "+ institutionDTO.getName());
+            throw new InstitutionNotFoundException("Institution already exists with this name "+ institutionDTO.getName(), HttpStatus.BAD_REQUEST);
         }
         InstitutionDTO savedInstitution = institutionService.createInstitution(institutionDTO);
         return HttpResponse.created(savedInstitution);
