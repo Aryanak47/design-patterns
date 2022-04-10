@@ -25,7 +25,7 @@ public class InstitutionController {
     public HttpResponse<InstitutionDTO> createInstitution(@Body InstitutionDTO institutionDTO){
 
         if(institutionService.IsInstitutionExist(institutionDTO.getName())){
-            throw new InstitutionNotFoundException("Institution already exists with this name "+ institutionDTO.getName(), HttpStatus.BAD_REQUEST);
+            throw new InstitutionNotFoundException("Institution already exists with this name "+ institutionDTO.getName(), HttpStatus.NOT_FOUND);
         }
         InstitutionDTO savedInstitution = institutionService.createInstitution(institutionDTO);
         return HttpResponse.created(savedInstitution);

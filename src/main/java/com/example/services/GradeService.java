@@ -25,10 +25,10 @@ public class GradeService {
     public GradeDto createGrade(GradeDto gradeDto,long id){
         Optional<Institution> institution = institutionRepository.findById(id);
         if (institution.isEmpty()) {
-            throw new InstitutionNotFoundException("There is no institution with this id", HttpStatus.BAD_REQUEST);
+            throw new InstitutionNotFoundException("There is no institution with this id", HttpStatus.NOT_FOUND);
         }
 
-        Grade grade = gradeDto.getEntity();
+        Grade grade = gradeDto.toEntity();
         grade.setInstitution(institution.get());
         institution.get().getGrades().add(grade);
          gradeRepository.save(grade);

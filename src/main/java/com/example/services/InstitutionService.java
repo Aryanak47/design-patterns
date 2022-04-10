@@ -2,6 +2,7 @@ package com.example.services;
 
 
 
+import com.example.DTO.GradeDto;
 import com.example.DTO.InstitutionDTO;
 import com.example.entity.Institution;
 import com.example.error.InstitutionNotFoundException;
@@ -13,6 +14,7 @@ import jakarta.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Singleton
 public class InstitutionService {
@@ -27,7 +29,9 @@ public class InstitutionService {
              institutionDTO.setName(institution.getName());
              institutionDTO.setLocation(institution.getLocation());
              institutionDTO.setPhoneNumber(institution.getPhoneNumber());
-             institutionDTO.setGrades(institution.getGrades());
+             institutionDTO.setGrades(institution.getGrades()
+                     .stream()
+                     .map(grade -> new GradeDto(grade.getName())).collect(Collectors.toSet()));
              institutionDTO.setId(institution.getId());
              institutions.add(institutionDTO);
          });
@@ -43,7 +47,7 @@ public class InstitutionService {
     }
 
     public InstitutionDTO createInstitution(InstitutionDTO institutionDTO){
-        Institution institution = institutionDTO.getEntity();
+        Institution institution = institutionDTO.toEntity();
         Institution savedInstitution = institutionRepository.save(institution);
         institutionDTO.setId(savedInstitution.getId());
         return institutionDTO;
@@ -57,11 +61,13 @@ public class InstitutionService {
               institutionDTO.setName(institution.get().getName());
               institutionDTO.setLocation(institution.get().getLocation());
               institutionDTO.setPhoneNumber(institution.get().getPhoneNumber());
-              institutionDTO.setGrades(institution.get().getGrades());
+              institutionDTO.setGrades(institution.get().getGrades()
+                      .stream()
+                      .map(grade -> new GradeDto(grade.getName())).collect(Collectors.toSet()));
               institutionDTO.setId(id);
               return institutionDTO;
           }
-          throw new InstitutionNotFoundException("There is no institution with this id", HttpStatus.BAD_REQUEST);
+          throw new InstitutionNotFoundException("There is no institution with this id", HttpStatus.NOT_FOUND);
 
 
     }

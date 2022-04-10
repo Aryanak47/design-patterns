@@ -11,6 +11,8 @@ import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Arrays;
+
 @Produces
 @Singleton
 @Requires(classes = { InstitutionNotFoundException.class})
@@ -19,11 +21,13 @@ public class ExceptionHandler implements io.micronaut.http.server.exceptions.Exc
 
     @Override
     public HttpResponse<?> handle(HttpRequest request, InstitutionNotFoundException exception) {
-        HttpStatus status = exception.getStatus();
-        if(status == HttpStatus.BAD_REQUEST){
-            return HttpResponse.badRequest(exception.getLocalizedMessage());
-        }
-        return  HttpResponse.serverError(exception.getLocalizedMessage());
-
+//        LOG.error(exception.getLocalizedMessage());
+//        LOG.error(exception.getCause().getMessage());
+//        Arrays.stream(exception.getStackTrace()).forEach(item ->  LOG.error(item.toString()));
+        Error error = new Error(exception.getLocalizedMessage(), exception.getStatus().getCode());
+        return HttpResponse.status(exception.getStatus()).body(error);
     }
+
+
+
 }

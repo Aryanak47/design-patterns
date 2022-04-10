@@ -14,9 +14,9 @@ public class InstitutionDTO {
     private String name;
     private String location;
     private String phoneNumber;
-    private Set<Grade> grades = new HashSet<>();
+    private Set<GradeDto> grades = new HashSet<>();
 
-    public Institution getEntity(){
+    public Institution toEntity(){
         Institution institution = new Institution();
         institution.setLocation(this.location);
         institution.setName(this.name);
@@ -56,11 +56,11 @@ public class InstitutionDTO {
         this.phoneNumber = phoneNumber;
     }
 
-    public Set<Grade> getGrades() {
+    public Set<GradeDto> getGrades() {
         return grades;
     }
 
-    public void setGrades(Set<Grade> grades) {
+    public void setGrades(Set<GradeDto> grades) {
         this.grades = grades;
     }
 }
